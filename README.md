@@ -16,14 +16,6 @@ This comprehensive guide helps you build a **secure, private streaming server** 
 - **NordVPN** - Privacy and security through VPN tunneling
 - **Cloudflare Tunnel** - Secure remote access without port forwarding
 
-# Installing and Setting Up Debian 13 LXC
-
-## Prerequisites
-- Proxmox VE server running
-- Internet connectivity
-- Sufficient storage space
-- Root access to Proxmox
-
 # Creating Debian 13 LXC Container - Step by Step
 
 Follow these detailed steps to create your Debian 13 LXC container for Stremio server deployment.
