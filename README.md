@@ -15,54 +15,6 @@ This comprehensive guide helps you build a **secure, private streaming server** 
 - **NordVPN** - Privacy and security through VPN tunneling
 - **Cloudflare Tunnel** - Secure remote access without port forwarding
 
-# Creating Debian 13 LXC Container - Step by Step
-
-Follow these detailed steps to create your Debian 13 LXC container for Stremio server deployment.
-
-## Container Creation Steps
-
-1. **Navigate to Storage Location**
-   - Go to `local` storage (not local-lvm)
-
-2. **Access Container Templates**
-   - Click on **CT templates**
-   - Click on **Templates**
-
-3. **Download Debian 13 Template**
-   - Download `debian-13-standard` template
-
-4. **Access Proxmox Node**
-   - Click on your Proxmox node
-
-5. **Create Container**
-   - Click on **Create CT**
-
-6. **Basic Configuration**
-   - **CT ID**: Assign a unique container ID (e.g., 100, 101, etc.)
-   - **Hostname**: `stremio-service` (recommended)
-   - **Password**: Set a secure password
-
-7. **Template Selection**
-   - **Template Storage**: Select storage where template was downloaded (`local`)
-   - **Template**: Choose `debian-13-standard` template
-
-8. **Storage Configuration**
-   - **Root Disk Storage**: Select storage location for container
-   - **Disk Size**: 15-20 GB recommended
-
-9. **Hardware Resources**
-   - **Cores**: 1 CPU core
-   - **Memory**: 2048 MB RAM
-   - **Swap**: 2048 MB swap space
-
-10. **Network Configuration**
-    - **IPv4**: DHCP
-    - **IPv6**: DHCP
-
-11. **DNS Configuration**
-    - Click **Next** to use default DNS settings
-    - Click **Finish** to complete container creation
-
 ## 🚀 Proxmox LXC Container Creation
 
 Follow these steps within your Proxmox web interface to prepare the environment.
@@ -187,6 +139,25 @@ Execute the following commands to download and run the official Docker installat
 curl -fsSL [https://get.docker.com](https://get.docker.com) -o get-docker.sh
 sh get-docker.sh
 ```
+### 2. Install Docker Compose
 
-## Step 1: Download Debian 13 Template
-<img width="506" height="252" alt="image" src="https://github.com/user-attachments/assets/37222109-349b-48fd-97e3-66b36e91f435" />
+Install Docker Compose v2.22.0 (or the latest stable version) by downloading the binary and making it executable:
+
+```bash
+# Download Docker Compose v2.22.0
+curl -L "[https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname](https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname) -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+# Make the binary executable
+chmod +x /usr/local/bin/docker-compose
+```
+
+### 3. Verification
+
+Verify that both Docker and Docker Compose are installed correctly:
+
+```bash
+docker --version
+docker-compose --help
+```
+
+
