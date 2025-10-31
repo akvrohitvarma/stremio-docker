@@ -25,3 +25,4 @@ This comprehensive guide helps you build a **secure, private streaming server** 
 - Root access to Proxmox
 
 ## Step 1: Download Debian 13 Template
+<img width="506" height="252" alt="image" src="https://github.com/user-attachments/assets/37222109-349b-48fd-97e3-66b36e91f435" />
