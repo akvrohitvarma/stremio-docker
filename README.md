@@ -24,7 +24,7 @@ Follow these steps within your Proxmox web interface to prepare the environment.
 1.  Navigate to the storage location where you want to download the template (e.g., **local**, but **not** `local-lvm`).
 2.  Click on **CT Templates**.
 3.  Click on **Templates**.
-4.  Download the **`debian-12-standard`** template (or `debian-13-standard` if available and preferred).
+4.  Download the **`debian-13-standard`** template (or `debian-12-standard` if available and preferred).
 
 ### 2. Create the LXC Container
 
