@@ -6,9 +6,22 @@ A complete, production-ready guide to deploying a private Stremio streaming serv
 
 This comprehensive guide helps you build a **secure, private streaming server** that you can access from anywhere while maintaining complete anonymity through NordVPN protection.
 
-### 🔧 Key Features:
-- **Privacy First**: All traffic routed through NordVPN with kill switch protection
-- **Remote Access**: Access your media library from anywhere via HTTPS using Cloudflare Tunnel
-- **Resource Optimized**: Lightweight setup that runs efficiently on minimal hardware
-- **Production Ready**: Battle-tested configuration with automatic startup and failover handling
-- **Multi-Device Support**: Works seamlessly with Stremio desktop, mobile apps, and web browsers
+# Technologies Used
+
+## Core Technologies
+- **Proxmox VE** - Virtualization platform for container management
+- **Debian 13 (Trixie)** - Base operating system for LXC container
+- **Docker** - Containerization platform for Stremio server
+- **Docker Compose** - Multi-container Docker application management
+- **NordVPN** - Privacy and security through VPN tunneling
+- **Cloudflare Tunnel** - Secure remote access without port forwarding
+
+# Installing and Setting Up Debian 13 LXC
+
+## Prerequisites
+- Proxmox VE server running
+- Internet connectivity
+- Sufficient storage space
+- Root access to Proxmox
+
+## Step 1: Download Debian 13 Template
