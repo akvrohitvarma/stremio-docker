@@ -208,9 +208,11 @@ Now, log back into your Stremio LXC container's shell (as root) to install the n
     * **GID in CT:** Enter the GID you found in step 1 (e.g., `104`).
     * **UID in CT:** Leave this empty.
     * **Access Mode:** Select `0666` (This provides the container with necessary read/write permissions for transcoding).
-5.  Click **Add**.---
+5.  Click **Add**.
 
 Your container now has hardware acceleration!
+
+---
 
 ## 🐳 Installing Docker and Docker Compose
 
