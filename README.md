@@ -127,6 +127,91 @@ This section covers basic setup, installing necessary tools, and configuring Nor
 
 ---
 
+## ⚡ Enabling Hardware Acceleration (iGPU Passthrough)
+
+This is crucial for transcoding video streams efficiently, preventing high CPU load on the Proxmox host. This guide assumes you have an **Intel iGPU** (Quick Sync) in your Proxmox host.
+
+### 1. Proxmox Host Preparation
+
+The steps below are executed on your **Proxmox Host** console (the main PVE shell, not inside the LXC container).
+
+#### A. Identify GPU Device Nodes
+
+First, confirm the presence and major/minor numbers of your Intel GPU devices.
+
+1.  List the device files to get the major and minor numbers:
+    ```bash
+    ls -l /dev/dri
+    ```
+    You will likely see output similar to this (note the numbers **226, 0** and **226, 128**):
+    ```
+    crw-rw---- 1 root video 226, 0   # <-- card0 (Major 226, Minor 0)
+    crw-rw---- 1 root render 226, 128 # <-- renderD128 (Major 226, Minor 128)
+    ```
+
+2.  If the numbers differ from `226:0` and `226:128`, **use your numbers** in the next step.
+3.  LXC Container Preparation (Find Group ID)
+
+You need to find the specific Group ID (GID) that the `render` group uses inside your Debian LXC container, as this number must be mapped accurately.
+
+-  Log into your Stremio LXC container's console (via Proxmox or SSH).
+-  Execute the following command to retrieve the GID for the `render` group:
+
+    ```bash
+    getent group render | cut -d: -f3
+    ```
+    *Note: This command usually returns a number like **104** or **108**. Write this number down.*
+
+#### B. Configure LXC Passthrough
+
+Edit the container configuration file. Replace `<CT_ID>` with your Stremio container's ID (e.g., `101`).
+
+1.  Edit the configuration file:
+    ```bash
+    nano /etc/pve/lxc/<CT_ID>.conf
+    ```
+
+2.  Add the following lines to the very end of the file. These lines allow the container to access the device and mount it to the correct location (using the common device numbers):
+
+    ```ini
+    # Passthrough iGPU device nodes for hardware acceleration (VAAPI)
+    lxc.cgroup2.devices.allow: c 226:0 rwm
+    lxc.cgroup2.devices.allow: c 226:128 rwm
+    lxc.mount.entry: /dev/dri dev/dri none bind,optional,create=dir
+    lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,create=file
+    ```
+    *(If your numbers were different, ensure you update `226:0` and `226:128` accordingly).*
+
+3.  Save the file (`Ctrl+S`) and exit (`Ctrl+X`).
+
+4.  **Reboot the LXC container** from the Proxmox UI to apply the configuration changes.
+
+### 2. Debian LXC Container Driver Installation
+
+Now, log back into your Stremio LXC container's shell (as root) to install the necessary decoding libraries.
+
+1.  **Install VAAPI Drivers:**
+    ```bash
+    # Ensure non-free component is enabled in sources list (mandatory for Intel media drivers)
+    # Install the necessary VAAPI driver package
+    apt update
+    apt install -y intel-media-va-driver-non-free
+    ```
+### 3. Configure Device Passthrough in Proxmox GUI
+
+1.  In the Proxmox web interface, click on your **LXC container** (`stremio-service`).
+2.  Navigate to the **Resources** panel.
+3.  Click the **Add** button, and select **Device Passthrough**.
+4.  In the configuration window:
+    * **Device Path:** Enter `/dev/dri/renderD128`.
+    * Check the **Advanced Options** box.
+    * **GID in CT:** Enter the GID you found in step 1 (e.g., `104`).
+    * **UID in CT:** Leave this empty.
+    * **Access Mode:** Select `0666` (This provides the container with necessary read/write permissions for transcoding).
+5.  Click **Add**.---
+
+Your container now has hardware acceleration!
+
 ## 🐳 Installing Docker and Docker Compose
 
 You'll need Docker and Docker Compose to easily run the Stremio server.
@@ -176,7 +261,7 @@ nano docker-compose.yml
 
 Paste the following content into the nano editor:
 
-```
+```yml
 services:
   stremio:
     image: tsaridas/stremio-docker:latest
