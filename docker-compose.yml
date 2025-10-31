@@ -1,0 +1,24 @@
+services:
+  stremio:
+    image: tsaridas/stremio-docker:latest
+    container_name: stremio-server
+    restart: unless-stopped
+    ports:
+      - "80:8080"
+    volumes:
+      - ./stremio-data:/root/.stremio-server
+    devices:
+      - "/dev/dri/renderD128:/dev/dri/renderD128"  # Enable hardware acceleration (if supported by Proxmox/LXC)
+    environment:
+      - DOMAIN=<your purchased domain>  # **IMPORTANT: CHANGE THIS**
+      - NO_CORS=1
+      - AUTO_SERVER_URL=1
+      - CASTING_DISABLED=1
+    networks:
+      - stremio-network
+
+networks:
+  stremio-network:
+    driver: bridge
+
+
