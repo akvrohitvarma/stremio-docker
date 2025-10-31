@@ -8,7 +8,6 @@ This comprehensive guide helps you build a **secure, private streaming server** 
 
 # Technologies Used
 
-## Core Technologies
 - **Proxmox VE** - Virtualization platform for container management
 - **Debian 13 (Trixie)** - Base operating system for LXC container
 - **Docker** - Containerization platform for Stremio server
