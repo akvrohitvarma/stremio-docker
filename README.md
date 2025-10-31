@@ -232,3 +232,47 @@ Docker will now pull the tsaridas/stremio-docker:latest image, and then it will 
 You should now see the Stremio server interface running!
 
 > **Note:** Because we used `restart: unless-stopped` in the configuration, the Stremio server container will automatically start whenever the LXC container reboots.
+
+## 🌎 Setting Up Cloudflare Tunnelling for Remote HTTPS Access
+
+Cloudflare Tunnels (formerly Argo Tunnel) provides a secure, HTTPS-encrypted connection from your LXC container to the Cloudflare network, allowing worldwide access without exposing any ports on your home router.
+
+### 1. Cloudflare Zero Trust Configuration
+
+Follow these steps in your web browser:
+
+1.  Go to the **Cloudflare Dashboard** at `dash.cloudflare.com`.
+2.  Navigate to **Zero Trust**.
+3.  Click on **Networks**, then click on **Tunnels**.
+4.  Click on **Create a new tunnel**.
+5.  Select the **Cloudflared** connector option.
+6.  **Name your tunnel** (e.g., `stremio-service`) and click **Save**.
+
+### 2. Install and Run `cloudflared` on LXC
+
+1.  On the next screen, follow the on-screen instructions to **Install and run `cloudflared`** on your Debian 64-bit LXC container.
+2.  After installing the binary on your LXC, the Cloudflare website will provide a specific command to install the service. **Copy this entire command** (it includes your unique token) and paste it into your LXC terminal:
+
+    ```bash
+    # Example command (token will be unique, copy it exactly from the Cloudflare page)
+    sudo cloudflared service install <token-provided-by-cloudflare>
+    ```
+    Click **Next** on the Cloudflare website after executing the command.
+
+### 3. Configure Public Hostname
+
+This step links your custom domain to the internal Stremio service:
+
+1.  In the **Public Hostname** section of the Cloudflare UI, set up the following:
+    * **Subdomain (Optional):** Add a subdomain (e.g., `movies`).
+    * **Domain:** Select the domain you have purchased and added to Cloudflare (e.g., `yourdomain.com`).
+    * **Path:** Leave this empty.
+2.  Under **Service** configuration:
+    * **Type:** Select **HTTP**.
+    * **URL:** Type the internal address of your LXC container running Stremio: `http://<lxc ip>:80` (Replace `<lxc ip>` with the IP address you found earlier using `ip a`).
+3.  Click **Save Hostname** and then **Complete setup**.
+
+Now if you go to `movies.<yourdomain>.com`, you will see the Stremio web UI, and you can access this from anywhere in the world to your self-hosted LXC container via HTTPS, secured by Cloudflare.
+
+---
+**End of Process: Enjoy your self-hosted movie streaming journey!**
