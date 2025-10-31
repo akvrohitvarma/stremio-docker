@@ -36,7 +36,7 @@ Follow these steps within your Proxmox web interface to prepare the environment.
     * Set a strong **password**.
 4.  **Template:**
     * Select the storage where the template was downloaded (e.g., `local`).
-    * Choose the **`debian-12-standard`** template.
+    * Choose the **`debian-13-standard`** template.
 5.  **Disk:**
     * Select the storage where the LXC container data will be saved.
 6.  **CPU:**
@@ -362,4 +362,15 @@ This step links your custom domain to the internal Stremio service:
 Now if you go to `movies.<yourdomain>.com`, you will see the Stremio web UI, and you can access this from anywhere in the world to your self-hosted LXC container via HTTPS, secured by Cloudflare.
 
 ---
+
+## ✨ Maintenance Tip (Cache Cleanup)
+
+In case your Stremio server cache builds up significantly over time, you can execute the following command from the root directory of your LXC container (where `docker-compose.yml` resides) to safely remove all cached files and reclaim disk space:
+
+```bash
+rm -rfv stremio-data/stremio-cache/*
+```
+
+---
+
 **End of Process: Enjoy your self-hosted movie streaming journey!**
