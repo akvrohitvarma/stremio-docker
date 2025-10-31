@@ -160,4 +160,75 @@ docker --version
 docker-compose --help
 ```
 
+## 💻 Setting Up Docker Container to Run Stremio Server
 
+With Docker and NordVPN configured, you can now deploy the Stremio server using a `docker-compose.yml` file. This setup ensures that the Stremio server traffic is routed through the VPN connection established in the LXC container.
+
+### 1. Create the `docker-compose.yml` File
+
+Execute the following command in the container's root directory to create and open the `docker-compose.yml` file using the `nano` text editor:
+
+```bash
+nano docker-compose.yml
+```
+
+### 2. Paste Configuration
+
+Paste the following content into the nano editor:
+
+```
+services:
+  stremio:
+    image: tsaridas/stremio-docker:latest
+    container_name: stremio-server
+    restart: unless-stopped
+    ports:
+      - "80:8080"
+    volumes:
+      - ./stremio-data:/root/.stremio-server
+    devices:
+      - "/dev/dri/renderD128:/dev/dri/renderD128"  # Enable hardware acceleration (if supported by Proxmox/LXC)
+    environment:
+      - DOMAIN=<your purchased domain>  # **IMPORTANT: CHANGE THIS**
+      - NO_CORS=1
+      - AUTO_SERVER_URL=1
+      - CASTING_DISABLED=1
+    networks:
+      - stremio-network
+
+networks:
+  stremio-network:
+    driver: bridge
+```
+
+### 3. Customize and Save
+
+* **Crucial Step:** Make sure to replace `<your purchased domain>` with your actual domain name in the `DOMAIN` environment variable.
+    * *Optional:* For more details on other environment variables, refer to the image's documentation: `https://hub.docker.com/r/tsaridas/stremio-docker`
+* Press **`Ctrl+S`** to save the file.
+* Press **`Ctrl+X`** to exit the `nano` editor.
+
+### 4. Deploy the Container
+
+Execute the following command to start the Stremio server container in the background (`-d` for detached mode):
+
+```bash
+docker-compose up -d
+```
+
+Docker will now pull the tsaridas/stremio-docker:latest image, and then it will successfully set up the stremio-server container.
+
+### 5. Access the Stremio Server
+
+1.  Find the IP address of your LXC container by executing:
+
+    ```bash
+    ip a
+    ```
+    Look for the IP address listed under the **`eth0`** interface.
+
+2.  On any device (laptop, mobile, etc.) on the same local network, open a web browser and navigate to the IP address you found (e.g., `http://192.168.1.100`).
+
+You should now see the Stremio server interface running!
+
+> **Note:** Because we used `restart: unless-stopped` in the configuration, the Stremio server container will automatically start whenever the LXC container reboots.
