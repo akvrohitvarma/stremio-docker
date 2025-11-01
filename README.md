@@ -92,7 +92,7 @@ This section covers basic setup, installing necessary tools, and configuring Nor
 3.  Log in to NordVPN in the LXC console using the token:
 
     ```bash
-    nordvpn connect --token <your-token>
+    nordvpn login --token <your-token>
     ```
 
 4.  Configure NordVPN settings. Replace `<country name>` with your desired location (e.g., `Zurich`):
