@@ -276,7 +276,7 @@ services:
     devices:
       - "/dev/dri/renderD128:/dev/dri/renderD128"  # Enable hardware acceleration (if supported by Proxmox/LXC)
     environment:
-      - DOMAIN=<your purchased domain>  # **IMPORTANT: CHANGE THIS**
+      - DOMAIN=<your purchased domain>  # **IMPORTANT: CHANGE THIS, IF YOU DO NOT HAVE A DOMAIN THEN REMOVE THIS VARIABLE**
       - NO_CORS=1
       - AUTO_SERVER_URL=1
       - CASTING_DISABLED=1
