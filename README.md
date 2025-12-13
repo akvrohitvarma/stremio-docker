@@ -223,7 +223,7 @@ You'll need Docker and Docker Compose to easily run the Stremio server.
 Execute the following commands to download and run the official Docker installation script:
 
 ```bash
-curl -fsSL [https://get.docker.com](https://get.docker.com) -o get-docker.sh
+curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 ### 2. Install Docker Compose
