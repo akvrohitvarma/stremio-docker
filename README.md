@@ -232,7 +232,7 @@ Install Docker Compose v2.22.0 (or the latest stable version) by downloading the
 
 ```bash
 # Download Docker Compose v2.22.0
-curl -L "[https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname](https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname) -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname) -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 # Make the binary executable
 chmod +x /usr/local/bin/docker-compose
