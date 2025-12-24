@@ -79,7 +79,7 @@ This section covers basic setup, installing necessary tools, and configuring Nor
 1.  Install the NordVPN tool:
 
     ```bash
-    sh <(curl -sSf [https://downloads.nordcdn.com/apps/linux/install.sh](https://downloads.nordcdn.com/apps/linux/install.sh))
+    sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
     ```
 
     > **Note:** The command provided in the input, `chmod +x install.sh` followed by `bash install.sh`, is often an alternative or older method. The single-line `sh <(...)` command is the official and more streamlined installation method for the NordVPN repository and tool.
