@@ -104,6 +104,8 @@ This section covers basic setup, installing necessary tools, and configuring Nor
     nordvpn whitelist add port 443
     nordvpn whitelist add port 8080
     nordvpn whitelist add subnet 0.0.0.0/24
+    nordvpn whitelist add subnet 172.18.0.0/16
+    nordvpn set killswitch off
     ```
 
 5.  Check the status. It might show disconnected after the settings change:
