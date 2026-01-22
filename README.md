@@ -279,7 +279,7 @@ services:
     devices:
       - "/dev/dri/renderD128:/dev/dri/renderD128"  # Enable hardware acceleration (if supported by Proxmox/LXC)
     environment:
-      - DOMAIN=movies.alluru.io  # **IMPORTANT: CHANGE THIS**
+      - DOMAIN=your.domain.here  # **IMPORTANT: CHANGE THIS**
       - NO_CORS=1
       - AUTO_SERVER_URL=1
       - CASTING_DISABLED=1
