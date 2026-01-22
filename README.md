@@ -272,20 +272,26 @@ services:
     container_name: stremio-server
     restart: unless-stopped
     ports:
-      - "80:8080"
+      - "8080:8080"
     volumes:
       - ./stremio-data:/root/.stremio-server
+      - ./restart_if_idle.sh:/root/restart_if_idle.sh
     devices:
-      - "/dev/dri/card0:/dev/dri/card0"
       - "/dev/dri/renderD128:/dev/dri/renderD128"  # Enable hardware acceleration (if supported by Proxmox/LXC)
     environment:
-      - DOMAIN=<your purchased domain>  # **IMPORTANT: CHANGE THIS, IF YOU DO NOT HAVE A DOMAIN THEN REMOVE THIS VARIABLE**
+      - DOMAIN=movies.alluru.io  # **IMPORTANT: CHANGE THIS**
       - NO_CORS=1
       - AUTO_SERVER_URL=1
       - CASTING_DISABLED=1
+      - DISABLE_CACHING=1
     networks:
       - stremio-network
-
+    healthcheck:
+      test: ["CMD-SHELL", "./restart_if_idle.sh"]
+      interval: 1h
+      timeout: 10s
+      start_period: 1h
+      retries: 1
 networks:
   stremio-network:
     driver: bridge
